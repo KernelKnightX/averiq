@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle, Sparkles } from 'lucide-react';
-import SectionHeading from '../components/SectionHeading';
-import FloatingElement from '../components/FloatingElement';
-import { submitContactForm } from '../services/firebaseService';
+import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -10,284 +9,238 @@ export default function Contact() {
     email: '',
     company: '',
     phone: '',
-    interest: '',
     message: '',
   });
 
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (!formData.company.trim()) newErrors.company = 'Company is required';
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     setIsSubmitting(true);
-
     try {
-      // Save to Firebase
-      const firebaseResult = await submitContactForm(formData);
-      
-      // Also send email via backend
-      const response = await fetch('http://localhost:3001/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      await addDoc(collection(db, 'contact_submissions'), {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        phone: formData.phone,
+        message: formData.message,
+        status: 'new',
+        submittedAt: serverTimestamp(),
       });
-
-      const data = await response.json();
-
-      if (data.success || firebaseResult.success) {
-        setSubmitted(true);
-        setFormData({
-          name: '',
-          email: '',
-          company: '',
-          phone: '',
-          interest: '',
-          message: '',
-        });
-      } else {
-        console.error('Form submission failed:', data.message);
-        alert(data.message || 'Failed to send message. Please try again.');
-      }
+      setSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        phone: '',
+        message: '',
+      });
+      setErrors({});
     } catch (error) {
-      console.error('Network error:', error);
-      alert('Network error. Please check your connection and try again.');
+      console.error('Error submitting contact form:', error);
+      // You might want to show an error message here
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: '',
+      });
+    }
   };
 
-  const interests = [
-    'Strategic Advisory & Assessment',
-    'Organizational Enablement',
-    'Knowledge Graph Development',
-    'AI Integration',
-    'General Inquiry',
-  ];
-
   const contactInfo = [
-    {
-      icon: MapPin,
-      title: 'Location',
-      details: ['Conroe, Texas', 'United States'],
-      gradient: 'from-blue-500 to-cyan-500',
-    },
-    {
-      icon: Mail,
-      title: 'Email',
-      details: ['info@averiq.com'],
-      gradient: 'from-purple-500 to-pink-500',
-    },
-    {
-      icon: Phone,
-      title: 'Phone',
-      details: ['Available upon request'],
-      gradient: 'from-orange-500 to-red-500',
-    },
+    { icon: MapPin, title: 'Location', detail: 'Conroe, Texas', gradient: 'from-blue-500 to-cyan-500' },
+    { icon: Mail, title: 'Email', detail: 'contact@averiq.ai', gradient: 'from-purple-500 to-pink-500' },
+    { icon: Phone, title: 'Phone', detail: 'Available upon request', gradient: 'from-orange-500 to-red-500' },
   ];
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center gradient-mesh text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <FloatingElement delay={0} className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl" />
-          <FloatingElement delay={2} className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
-        </div>
-        <div className="absolute inset-0 grid-bg opacity-20" />
-
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6 shimmer">
-            <Mail className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-semibold">Contact Us</span>
-          </div>
-          
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 leading-tight fade-in">
-            Let's Build Something
-            <span className="block mt-2">
-              <span className="gradient-text">Amazing Together</span>
-            </span>
-          </h1>
-          
-          <p className="text-base sm:text-lg text-blue-100 leading-relaxed max-w-3xl mx-auto fade-in-delayed">
-            Ready to transform your data into intelligent AI systems? Let's start the conversation.
-          </p>
-        </div>
-      </section>
-
-      {/* Contact Info Cards */}
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {contactInfo.map((info, index) => {
-              const Icon = info.icon;
-              return (
-                <div
-                  key={index}
-                  className="group relative bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-2xl transition-all hover:-translate-y-2"
-                >
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${info.gradient} mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">{info.title}</h3>
-                  <div className="space-y-1">
-                    {info.details.map((detail, i) => (
-                      <p key={i} className="text-sm text-gray-600">
-                        {detail}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Contact Form */}
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-                Send us a message
-              </h2>
-              <p className="text-base text-gray-600">
-                Fill out the form below and we'll get back to you within 24 hours
-              </p>
+    <div className="min-h-screen w-full bg-white flex items-center justify-center p-5">
+      <div className="w-full max-w-6xl">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left Side */}
+          <div className="space-y-5">
+            <div className="inline-flex items-center gap-2 bg-[#0A6190]/10 rounded-full px-4 py-2 border border-[#0A6190]/20">
+              <Mail className="w-4 h-4 text-[#0A6190]" />
+              <span className="text-sm font-semibold text-[#0A6190]">Contact Us</span>
             </div>
 
+         <h1 className="mt-4 text-4xl md:text-5xl font-semibold leading-tight">
+            Let's Build Something
+            <br />
+            <span className="text-[#0A6190]">Amazing Together</span>
+         </h1>
+            <p className="text-lg text-gray-600 max-w-lg leading-relaxed">
+              Ready to transform your data into intelligent AI systems? Let's start the conversation.
+            </p>
+
+            <div className="space-y-4 pt-4">
+              {contactInfo.map((info, index) => {
+                const Icon = info.icon;
+                return (
+                  <div key={index} className="flex items-center gap-4 bg-gray-50 rounded-xl p-4 border border-gray-100 hover:bg-gray-100 transition-colors">
+                    <div className={`flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br ${info.gradient} shadow-md`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">{info.title}</p>
+                      <p className="text-sm text-gray-600">{info.detail}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Side - Form */}
+          <div className="lg:sticky lg:top-8">
             {submitted ? (
-              <div className="glass-white rounded-3xl p-10 text-center shadow-2xl">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 mb-5">
+              <div className="bg-white rounded-2xl p-8 text-center shadow-lg border border-gray-200">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 mb-6 shadow-lg">
                   <CheckCircle className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  Thank you for reaching out!
+                  Thank you!
                 </h3>
-                <p className="text-base text-gray-600 mb-6">
+                <p className="text-gray-600 mb-8 leading-relaxed">
                   We've received your message and will get back to you shortly.
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-xl transition-all hover:-translate-y-1"
-                >
-                  Send another message
-                </button>
+<button
+  onClick={() => setSubmitted(false)}
+  className="bg-[#0A6190] text-white px-8 py-3 rounded-xl font-semibold shadow-lg"
+>
+  Send another message
+</button>
+
+
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="glass-white rounded-3xl p-6 sm:p-8 shadow-2xl">
-                <div className="grid md:grid-cols-2 gap-5 mb-5">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
-                      Full Name *
-                    </label>
+              <div className="bg-white rounded-2xl p-8 shadow-lg space-y-6 border border-gray-200">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-900">Name *</label>
                     <input
                       type="text"
-                      id="name"
                       name="name"
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-900 text-sm"
+                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-blue-500/20 focus:outline-none text-sm text-gray-900 transition-colors ${
+                        errors.name ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      }`}
                       placeholder="John Doe"
                     />
+                    {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
                   </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-                      Email Address *
-                    </label>
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-900">Email *</label>
                     <input
                       type="email"
-                      id="email"
                       name="email"
                       required
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                      title="Please enter a valid email address (e.g., name@company.com)"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-900 text-sm"
+                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-blue-500/20 focus:outline-none text-sm text-gray-900 transition-colors ${
+                        errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      }`}
                       placeholder="john@company.com"
                     />
+                    {errors.email && <p className="text-sm text-red-600">{errors.email}</p>}
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-5 mb-5">
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-semibold text-gray-900 mb-2">
-                      Company
-                    </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-900">Company *</label>
                     <input
                       type="text"
-                      id="company"
                       name="company"
+                      required
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-900 text-sm"
+                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-blue-500/20 focus:outline-none text-sm text-gray-900 transition-colors ${
+                        errors.company ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      }`}
                       placeholder="Your Company"
                     />
+                    {errors.company && <p className="text-sm text-red-600">{errors.company}</p>}
                   </div>
-
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold text-gray-900 mb-2">
-                      Phone Number
-                    </label>
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-900">Phone *</label>
                     <input
                       type="tel"
-                      id="phone"
                       name="phone"
+                      required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-900 text-sm"
+                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-blue-500/20 focus:outline-none text-sm text-gray-900 transition-colors ${
+                        errors.phone ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      }`}
                       placeholder="+1 (555) 000-0000"
                     />
+                    {errors.phone && <p className="text-sm text-red-600">{errors.phone}</p>}
                   </div>
                 </div>
 
-                <div className="mb-5">
-                  <label htmlFor="interest" className="block text-sm font-semibold text-gray-900 mb-2">
-                    I'm interested in *
-                  </label>
-                  <select
-                    id="interest"
-                    name="interest"
-                    required
-                    value={formData.interest}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-900 text-sm"
-                  >
-                    <option value="">Select an option</option>
-                    {interests.map((interest) => (
-                      <option key={interest} value={interest}>
-                        {interest}
-                      </option>
-                    ))}
-                  </select>
-                </div>
 
-                <div className="mb-6">
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-900 mb-2">
-                    Message *
-                  </label>
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-900">Message *</label>
                   <textarea
-                    id="message"
                     name="message"
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    rows={5}
-                    className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors resize-none text-gray-900 text-sm"
+                    rows={4}
+                    className={`w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-blue-500/20 focus:outline-none resize-none text-sm text-gray-900 transition-colors ${
+                      errors.message ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                    }`}
                     placeholder="Tell us about your project..."
                   />
+                  {errors.message && <p className="text-sm text-red-600">{errors.message}</p>}
                 </div>
 
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-base shadow-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#0A6190] to-[#00D4FF] hover:from-[#084C6B] hover:to-[#00B8E6] text-white px-6 py-4 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl hover:shadow-[#0A6190]/25 transition-all duration-300 transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   {isSubmitting ? (
                     <>
@@ -301,89 +254,11 @@ export default function Contact() {
                     </>
                   )}
                 </button>
-
-                <p className="text-xs text-gray-500 text-center mt-5">
-                  By submitting this form, you agree to our privacy policy and terms of service.
-                </p>
-              </form>
+              </div>
             )}
           </div>
         </div>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Why AverIQ"
-            title="Why work with us?"
-            subtitle="We're not just consultants—we're your partners in building intelligent, trustworthy AI systems"
-          />
-
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Fast Time to Value",
-                description: "See measurable results in 14 days with our rapid pilot framework. No lengthy enterprise sales cycles.",
-              },
-              {
-                title: "Enterprise-Grade Security",
-                description: "Your data stays secure with enterprise-grade governance, compliance, and access controls built in.",
-              },
-              {
-                title: "Proven Methodology",
-                description: "Our 4D framework has delivered results for leading enterprises across finance, energy, and manufacturing.",
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border-2 border-gray-200 hover:border-blue-500 hover:shadow-xl transition-all hover:-translate-y-2"
-              >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <CheckCircle className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 gradient-mesh text-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <FloatingElement className="absolute top-10 left-10 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-          <FloatingElement delay={2} className="absolute bottom-10 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        </div>
-
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-semibold">Ready to get started?</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Start your 14-day pilot today
-          </h2>
-          <p className="text-base text-blue-100 mb-8 max-w-2xl mx-auto">
-            No lengthy sales cycles. No commitments. Just results you can measure in two weeks.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href="#contact-form"
-              className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-xl font-bold text-base shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-1"
-            >
-              Book a demo
-            </a>
-            <a
-              href="/about"
-              className="inline-flex items-center justify-center gap-2 glass px-6 py-3 rounded-xl font-semibold hover:bg-white/10 transition-all"
-            >
-              Learn more about us
-            </a>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 }

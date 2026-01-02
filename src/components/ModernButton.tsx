@@ -23,9 +23,9 @@ export default function ModernButton({
   const baseStyles = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-1';
   
   const variants = {
-    primary: 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg hover:shadow-xl hover:shadow-blue-500/50 hover:from-blue-700 hover:to-cyan-600',
+    primary: 'bg-gradient-to-r from-[#0A6190] to-[#00D4FF] text-white shadow-lg hover:shadow-xl hover:shadow-[#0A6190]/50 hover:from-[#084C6B] hover:to-[#00B8E6]',
     secondary: 'bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20',
-    outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50',
+    outline: 'border-2 border-[#0A6190] text-[#0A6190] hover:bg-[#0A6190] hover:text-white',
   };
 
   const sizes = {

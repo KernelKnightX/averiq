@@ -1,16 +1,81 @@
-<header className="w-full top-0 z-50 bg-white text-slate-900">
-  <nav className="flex items-center gap-6 text-slate-900">
-    <a className="px-4 py-2 rounded-md text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600">
-      Home
-    </a>
-    <a className="px-4 py-2 rounded-md text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600">
-      About
-    </a>
-    <a className="px-4 py-2 rounded-md text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600">
-      Services
-    </a>
-    <a className="px-4 py-2 rounded-md text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600">
-      Contact
-    </a>
-  </nav>
-</header>
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
+
+export default function Header() {
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+
+  return (
+    <header className="w-full fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center">
+          <img src="/logo.svg" alt="AverIQ Logo" className="h-8 w-auto" />
+        </Link>
+
+        {/* Navigation Links */}
+        <div className="flex items-center gap-8">
+          <Link
+            to="/"
+            className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+          >
+            Home
+          </Link>
+
+          {/* Services Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setIsServicesOpen(true)}
+            onMouseLeave={() => setIsServicesOpen(false)}
+          >
+            <button
+              onClick={() => setIsServicesOpen(!isServicesOpen)}
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              Services
+              <ChevronDown className={`w-4 h-4 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isServicesOpen && (
+                          <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                            <Link
+                              to="/consulting"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                            >
+                              Consulting
+                            </Link>
+                            <Link
+                              to="/talent-augmentation"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                            >
+                              Talent Augmentation
+                            </Link>
+                            <Link
+                              to="/production-support"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                            >
+                              Production Support
+                            </Link>
+                            <Link
+                              to="/training"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                            >
+                              Training
+                            </Link>
+                          </div>
+                        )}
+          </div>
+        </div>
+
+        {/* CTA Button */}
+        <Link
+          to="/contact"
+          className="px-6 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm hover:shadow-md flex items-center gap-2"
+        >
+          Get Started
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </nav>
+    </header>
+  );
+}

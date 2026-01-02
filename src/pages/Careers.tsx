@@ -1,250 +1,265 @@
-import { Briefcase, Users, Rocket, Heart, CheckCircle, Sparkles, TrendingUp } from 'lucide-react';
-import ResumeUploader from '../components/ResumeUploader';
-import SectionHeading from '../components/SectionHeading';
-import FloatingElement from '../components/FloatingElement';
+import { useState } from 'react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../firebase/config';
 
 export default function Careers() {
-  const openRoles = [
-    {
-      title: 'Junior Context Engineer',
-      department: 'Engineering',
-      location: 'Remote / Conroe, TX',
-      type: 'Full-time',
-      description: 'Help build semantic knowledge graphs and AI systems for enterprise clients.',
-    },
-    {
-      title: 'Data Engineer',
-      department: 'Engineering',
-      location: 'Remote / Conroe, TX',
-      type: 'Full-time',
-      description: 'Design and implement scalable data pipelines and integration solutions.',
-    },
-    {
-      title: 'Product Manager — Semantic AI',
-      department: 'Product',
-      location: 'Remote / Conroe, TX',
-      type: 'Full-time',
-      description: 'Drive product strategy for our semantic AI and knowledge graph solutions.',
-    },
-  ];
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    role: '',
+    experience: '',
+    skills: '',
+    location: '',
+    pincode: '',
+    city: '',
+    portfolio: '',
+  });
 
-  const benefits = [
-    {
-      icon: Heart,
-      title: 'Health & Wellness',
-      description: 'Comprehensive health, dental, and vision insurance for you and your family.',
-    },
-    {
-      icon: TrendingUp,
-      title: 'Growth & Learning',
-      description: 'Continuous learning opportunities, conferences, and professional development budget.',
-    },
-    {
-      icon: Users,
-      title: 'Work-Life Balance',
-      description: 'Flexible work arrangements, unlimited PTO, and remote-first culture.',
-    },
-    {
-      icon: Rocket,
-      title: 'Cutting-Edge Tech',
-      description: 'Work with the latest AI, semantic technologies, and enterprise platforms.',
-    },
-  ];
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const values = [
-    {
-      title: 'Innovation First',
-      description: 'We push boundaries and explore new frontiers in semantic AI and knowledge engineering.',
-    },
-    {
-      title: 'Client Success',
-      description: 'Our clients\' success is our success. We go above and beyond to deliver value.',
-    },
-    {
-      title: 'Continuous Learning',
-      description: 'We invest in our team\'s growth and encourage curiosity and experimentation.',
-    },
-    {
-      title: 'Collaborative Culture',
-      description: 'We believe in the power of teamwork and open communication.',
-    },
-  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!file) {
+      setError('Please upload your resume');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      /* ========= Upload Resume ========= */
+      const storagePath = `careers/${Date.now()}_${file.name}`;
+      const fileRef = ref(storage, storagePath);
+      await uploadBytes(fileRef, file);
+      const resumeURL = await getDownloadURL(fileRef);
+
+      /* ========= Firestore Document ========= */
+      await addDoc(collection(db, 'career_applications'), {
+        ...form,
+        resumeURL,
+        resumeFileName: file.name,
+        resumeStoragePath: storagePath,
+        status: 'new',            // 🔥 DO NOT REMOVE
+        createdAt: serverTimestamp(),
+      });
+
+      setSuccess(true);
+      setForm({
+        name: '',
+        email: '',
+        phone: '',
+        role: '',
+        experience: '',
+        skills: '',
+        location: '',
+        pincode: '',
+        city: '',
+        portfolio: '',
+      });
+      setFile(null);
+    } catch (err) {
+      console.error(err);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center gradient-mesh text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <FloatingElement delay={0} className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl" />
-          <FloatingElement delay={2} className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
-        </div>
-        <div className="absolute inset-0 grid-bg opacity-20" />
-
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6 shimmer">
-            <Briefcase className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-semibold">Join Our Team</span>
-          </div>
-          
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 leading-tight fade-in">
-            Build the Future of
-            <span className="block mt-2">
-              <span className="gradient-text">Semantic AI with Us</span>
-            </span>
-          </h1>
-          
-          <p className="text-base sm:text-lg text-blue-100 leading-relaxed max-w-3xl mx-auto fade-in-delayed">
-            Join a team of innovators transforming how enterprises leverage AI and knowledge graphs.
-          </p>
-        </div>
-      </section>
-
-      {/* Why Join AverIQ */}
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Why AverIQ"
-            title="Why work with us?"
-            subtitle="Be part of a team that's shaping the future of enterprise AI"
-          />
-
-          <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {benefits.map((benefit, index) => {
-              const Icon = benefit.icon;
-              return (
-                <div
-                  key={index}
-                  className="group bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-2xl transition-all hover:-translate-y-2"
-                >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">{benefit.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{benefit.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Values */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Our Values"
-            title="What we believe in"
-            subtitle="The principles that guide everything we do"
-          />
-
-          <div className="mt-10 grid md:grid-cols-2 gap-6">
-            {values.map((value, index) => (
-              <div
-                key={index}
-                className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border-2 border-gray-200 hover:border-blue-500 hover:shadow-xl transition-all hover:-translate-y-2"
-              >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <CheckCircle className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">{value.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{value.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Open Positions */}
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Open Positions"
-            title="Current openings"
-            subtitle="Find your next opportunity with AverIQ"
-          />
-
-          <div className="mt-10 space-y-4">
-            {openRoles.map((role, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-2xl transition-all hover:-translate-y-1"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {role.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-3">{role.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">
-                        <Briefcase className="w-3 h-3" />
-                        {role.department}
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold">
-                        {role.location}
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
-                        {role.type}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Application Form */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-              Apply Now
-            </h2>
-            <p className="text-base text-gray-600">
-              Submit your application and we'll review it within 48 hours
+    <div className="min-h-screen bg-white">
+      {/* ================= HERO ================= */}
+      <section className="border-b bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-14 items-center">
+          {/* LEFT */}
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900">
+              Careers at <span className="text-[#0A6190]">AverIQ</span>
+            </h1>
+            <p className="mt-4 text-lg text-gray-600">
+              We’re building next-generation data intelligence systems.
+              If you love solving complex problems with data, you’ll fit right in.
             </p>
+
+            <div className="mt-6 space-y-3 text-gray-700">
+              <p>🚀 Work on real-world AI & data platforms</p>
+              <p>🧠 Solve enterprise-scale problems</p>
+              <p>🌍 Remote-first, outcome-driven culture</p>
+              <p>📈 Learn fast, grow faster</p>
+            </div>
           </div>
 
-          <div className="glass-white rounded-3xl p-6 sm:p-8 shadow-2xl">
-            <ResumeUploader />
+          {/* RIGHT IMAGE */}
+          <div className="hidden lg:block">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978"
+              alt="Careers at AverIQ"
+              className="rounded-2xl shadow-lg"
+            />
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 gradient-mesh text-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <FloatingElement className="absolute top-10 left-10 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-          <FloatingElement delay={2} className="absolute bottom-10 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+      {/* ================= CONTENT ================= */}
+      <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12">
+        {/* LEFT INFO */}
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            Who We’re Looking For
+          </h2>
+
+          <p className="text-gray-600 mb-6">
+            We look for exceptional people.
+            If you belong to any of these areas, we want to hear from you.
+          </p>
+
+          <ul className="space-y-3 text-gray-800">
+            <li>• Data Scientists</li>
+            <li>• Data Engineers</li>
+            <li>• Knowledge Graph Experts</li>
+            <li>• AI / ML Specialists</li>
+            <li>• Analytics Engineers</li>
+            <li>• BI & Reporting Experts</li>
+            <li>• Backend / Full-Stack Developers</li>
+          </ul>
         </div>
 
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center">
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-semibold">Questions?</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Don't see the right role?
-          </h2>
-          <p className="text-base text-blue-100 mb-8 max-w-2xl mx-auto">
-            We're always looking for talented people. Send us your resume and let's talk about how you can contribute to our mission.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-xl font-bold text-base shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-1"
-            >
-              Contact Us
-            </a>
-            <a
-              href="/about"
-              className="inline-flex items-center justify-center gap-2 glass px-6 py-3 rounded-xl font-semibold hover:bg-white/10 transition-all"
-            >
-              Learn more about AverIQ
-            </a>
-          </div>
+        {/* ================= FORM ================= */}
+         <div className="bg-gray-50 border rounded-2xl p-8">
+           <h3 className="text-xl font-semibold mb-4">Apply Now</h3>
+           <p className="text-sm text-gray-600 mb-6">
+           
+           </p>
+
+          {success ? (
+            <p className="text-green-600 font-medium">
+              ✅ Thank you! Your application has been submitted.
+            </p>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                name="name"
+                placeholder="Full Name"
+                required
+                value={form.name}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="email"
+                type="email"
+                placeholder="Email Address"
+                required
+                value={form.email}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="phone"
+                placeholder="Phone Number"
+                required
+                value={form.phone}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="role"
+                placeholder="Primary Role (e.g. Data Scientist)"
+                required
+                value={form.role}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="experience"
+                placeholder="Years of Experience"
+                required
+                value={form.experience}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <textarea
+                name="skills"
+                placeholder="Key Skills / Tools"
+                required
+                rows={3}
+                value={form.skills}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="location"
+                placeholder="Location (City, State)"
+                required
+                value={form.location}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="pincode"
+                placeholder="Zip Code"
+                required
+                pattern="[0-9]{5}"
+                maxLength={5}
+                value={form.pincode}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="city"
+                placeholder="City"
+                required
+                value={form.city}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                name="portfolio"
+                placeholder="Portfolio / GitHub / LinkedIn (optional)"
+                value={form.portfolio}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2"
+              />
+
+              <input
+                type="file"
+                accept=".pdf"
+                required
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+                className="w-full"
+              />
+
+              {error && <p className="text-red-600 text-sm">{error}</p>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#0A6190] text-white py-3 rounded-lg hover:bg-[#084C6B] disabled:opacity-50"
+              >
+                {loading ? 'Submitting…' : 'Submit Application'}
+              </button>
+            </form>
+          )}
         </div>
       </section>
     </div>

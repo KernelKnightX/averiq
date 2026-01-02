@@ -1,0 +1,15 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Career resumes - allow upload for anyone, read for authenticated users
+    match /careers/{allPaths=**} {
+      allow write: if request.auth == null && request.resource.size < 10 * 1024 * 1024 && request.resource.contentType.matches('application/pdf');
+      allow read: if request.auth != null;
+    }
+
+    // Admin uploaded files
+    match /admin/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
+    }
+  }
+}

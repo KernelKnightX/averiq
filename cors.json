@@ -1,8 +1,7 @@
 [
   {
-    "origin": ["http://localhost:5173", "http://localhost:3000", "https://averiq.com"],
-    "method": ["GET", "POST", "PUT", "DELETE", "HEAD"],
-    "responseHeader": ["Content-Type", "x-goog-meta-*"],
+    "origin": ["http://localhost:5173", "http://localhost:3000"],
+    "method": ["GET", "POST", "PUT", "DELETE"],
     "maxAgeSeconds": 3600
   }
 ]
