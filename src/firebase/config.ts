@@ -13,7 +13,15 @@ const firebaseConfig = {
 };
 
 // Check for required environment variables
+console.log('Firebase config check:', {
+  hasApiKey: !!firebaseConfig.apiKey,
+  hasProjectId: !!firebaseConfig.projectId,
+  apiKey: firebaseConfig.apiKey ? 'present' : 'missing',
+  projectId: firebaseConfig.projectId ? 'present' : 'missing',
+});
+
 if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  console.error('Firebase configuration is incomplete. Please check your environment variables.');
   throw new Error('Firebase configuration is incomplete. Please check your environment variables.');
 }
 
