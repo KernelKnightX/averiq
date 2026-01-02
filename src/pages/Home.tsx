@@ -53,7 +53,7 @@ export default function Home() {
             {/* Right Visual - Dashboard Image */}
             <div className="relative">
               <img
-                src="public/home-hero.png"
+                src="/Home-hero.png"
                 alt="Knowledge Graph Visualization"
                 className="w-full h-auto rounded-3xl shadow-2xl"
               />
