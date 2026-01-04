@@ -5,64 +5,77 @@ import { ArrowRight, Target, Brain, CheckCircle2, Zap, Shield, TrendingUp, Lock,
 export default function Home() {
   return (
     <div className="font-sans bg-white">
-<section className="relative bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-  <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-20 lg:py-28">
+<section className="relative overflow-hidden bg-white">
+  <div className="mx-auto max-w-7xl px-6 py-24 grid lg:grid-cols-2 gap-16 items-center">
 
-      {/* Left Content */}
-      <div className="space-y-10 font-syne">
-        <div className="space-y-4">
+    {/* LEFT: TEXT */}
+    <div className="relative z-10">
+      <p className="text-sm font-semibold tracking-wide text-[#0A6190] uppercase mb-4">
+        Smartest AI will fail until you feed it good context
+      </p>
 
-       <p className="text-sm sm:text-sm lg:text-1xs font-semibold tracking-wide leading-snug text-[#0A6190] uppercase">
-      Smartest AI will fail until you feed it good context
-       </p>
+      <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 leading-tight mb-6">
+        Build Intelligent Apps and<br />
+        <span className="text-[#0A6190]">AI with your business context</span>
+      </h1>
 
-          <h2 className="text-2xl sm:text-6xl lg:text-4xl font-medium leading-snug text-black-1000 font-neo">
-            Build Intelligent Apps and AI For Enterprise with your business context
-          </h2>
-        </div>
+      <p className="text-lg text-slate-600 mb-8 max-w-xl">
+        AI-ready GraphRAG for Enterprise AI. AverIQ experts bring domain expertise
+        with advanced technology.
+      </p>
 
-        <div className="space-y-4">
-          <p className="text-xl  bold-text-black-1000 font-Public Sans">
-            AI-ready - <span className="text-[#0A6190]"> GraphRAG for Enterprise AI</span>
-          </p>
-
-          <p className="text-lg text-gray-500">
-            AverIQ experts bring domain expertise with advanced technology
-          </p>
-        </div>
-
-        <div className="flex flex-row gap-4 pt-4">
-<Link
-  to="/contact"
-  className="px-8 py-4 bg-[#0A6190] hover:bg-[#084d73] text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-lg">
-  Talk to Expert
-</Link>
-
-
-          <Link
-            to="/graphrag"
-            className="px-8 py-4 border-2 border-[#0A6190] text-[#0A6190] hover:bg-[#0A6190] hover:text-white font-semibold rounded-lg transition-colors text-lg"
-          >
-            GraphRAG
-          </Link>
-        </div>
+      <div className="flex gap-4">
+        <Link
+          to="/contact"
+          className="bg-[#0A6190] hover:bg-[#084d73] text-white px-8 py-3 rounded-lg font-medium transition inline-block"
+        >
+          Talk to Expert
+        </Link>
+        <Link
+          to="/graphrag"
+          className="border border-[#0A6190] text-[#0A6190] px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition inline-block"
+        >
+          GraphRAG
+        </Link>
       </div>
+    </div>
+
+    {/* RIGHT: IMAGE */}
+    <div className="relative hidden lg:block">
+      <div className="hero-image-mask">
+        <img
+          src="/Home_hero3.png"
+          alt="AverIQ GraphRAG Platform"
+          className="w-full h-auto rounded-2xl shadow-2xl"
+        />
+      </div>
+    </div>
+
+  </div>
 
 
-            {/* Right Visual - Dashboard Image */}
-            <div className="relative">
-              <img
-                src="/Home-hero.png"
-                alt="Knowledge Graph Visualization"
-                className="w-full h-auto rounded-3xl shadow-2xl"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+
+  {/* ================= GARTNER INSIGHT (INSIDE HERO) ================= */}
+  <div className="bg-gray-50 border-t">
+    <div className="max-w-7xl mx-auto px-6 py-4 text-center">
+      <p className="text-base md:text-lg text-slate-700 leading-normal max-w-6xl mx-auto">
+        <span className="font-medium">
+          By 2027, 75% of new analytics content will be contextualized for intelligent
+          applications through GenAI, enabling a composable connection between
+          insights and actions.
+        </span>
+        <span className="ml-2 text-sm font-semibold tracking-wide text-slate-500 uppercase">
+          — Gartner
+        </span>
+      </p>
+    </div>
+  </div>
+
+</section>
 
 
+<br></br>
+<br></br>
 
       {/* From Data to Context Section */}
       <section className="bg-white py-10 lg:py-0">
@@ -149,7 +162,7 @@ export default function Home() {
                 </div>
                 <ArrowRight className="text-[#0A6190] w-8 h-8" />
                 <div className="bg-gray-900 text-white rounded-xl px-6 py-4 shadow-lg">
-                  <p className="text-sm font-medium">Enterprise<br />Framework</p>
+                  <p className="text-sm font-medium text-white">Enterprise<br />Framework</p>
                 </div>
               </div>
 
@@ -243,12 +256,11 @@ export default function Home() {
   {/* BOX 4 – BRAND / CTA BOX */}
   <div className="rounded-2xl p-6 flex flex-col justify-between">
     <div>
-      <div className="flex items-center gap-3 mb-3">
-        <img src="/logo.png" alt="AverIQ" className="h-10 w-10" />
-        <span className="tracking-wide font-medium">AVERIQ</span>
+      <div className="flex justify-left items-center mb-3">
+        <img src="/Designe1.png" alt="AverIQ" className="h-14 w-25ni" />
       </div>
 
-      <p className="text-[#FFFFF] text-sm leading-relaxed mb-4">
+      <p className="text-white text-md leading-relaxed mb-4">
         Your boutique AI partner for faster execution and better outcomes —
         without big-firm overhead.
       </p>

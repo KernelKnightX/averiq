@@ -1,140 +1,281 @@
 export default function DataReadinessAssessment() {
   return (
-    <div className="w-full bg-white">
-      {/* ================================================= */}
-      {/* HEADER */}
-      {/* ================================================= */}
-      <section className="bg-[#1f2d3d] text-white py-10">
-        <h1 className="text-center text-3xl font-semibold">
+    <div className="w-full bg-white text-slate-900">
+
+<section className="border-b">
+  <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-[3fr_1fr] gap-12">
+
+    {/* LEFT — HEADER */}
+    <div className="max-w-xl">
+      <p className="text-sm font-medium text-[#0A6190] uppercase tracking-wide">
+        Service
+      </p>
+
+      <h1 className="mt-2 text-3xl md:text-4xl font-semibold tracking-tight">
         Data & AI Advisory & Consulting
-        </h1>
-      </section>
+      </h1>
 
-      {/* ================================================= */}
-      {/* SECTION 1 */}
-      {/* ================================================= */}
-      <section className="max-w-7xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-bold mb-6">
-          DATA & AI Readiness Assessment & Roadmap
-        </h2>
+      <p className="mt-3 text-lg text-slate-600">
+        Helping enterprises move from fragmented data and experimental AI
+        to trusted, explainable, production-ready systems.
+      </p>
+    </div>
 
-        <p className="mb-8">
-          <strong>Moving Beyond Generic Strategies to Enterprise-Grade AI Alignment</strong>{" "}
-          Generic AI strategies often fail because they lack the necessary nuance for your specific business needs.
-          Our boutique assessment performs a deep-dive into the six critical pillars required to transform your
-          enterprise into a fully AI-aligned organization.
-        </p>
+    {/* RIGHT — OTHER SERVICES */}
+<aside className="hidden md:block border-l border-slate-200 pl-4 -ml-32">
 
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          <img
-            src="/Service1.png"
-            alt="AI Readiness Assessment"
-            className="w-full h-auto rounded-3xl shadow-2xl"
-          />
 
-          <ol className="list-decimal ml-6 space-y-4">
-            <li>
-              <strong>Data Readiness & Contextual Depth:</strong> Transition from data silos to intelligence by
-              structuring your data into a "brain" that AI can reason with.
-            </li>
-            <li>
-              <strong>Strategic Alignment & Use-Case ROI:</strong> Avoid the "experimentation trap" by ensuring every
-              AI initiative is tied to clear KPIs and immediate value.
-            </li>
-            <li>
-              <strong>Technical Orchestration & Infrastructure:</strong> Build a secure, cost-effective foundation
-              that connects LLMs to your private data for enterprise-grade scale.
-            </li>
-            <li>
-              <strong>Culture & Growth Mindset:</strong> Shift the mindset from fear of replacement to empowerment
-              through AI augmentation.
-            </li>
-            <li>
-              <strong>Talent Architecture & Literacy:</strong> Identify and bridge skill gaps to design the right team
-              structure for long-term AI evolution.
-            </li>
-            <li>
-              <strong>Ethics, Governance & Trust:</strong> Implement the necessary guardrails and verifiable logic to
-              ensure transparent, unbiased, and compliant outcomes.
-            </li>
-          </ol>
-        </div>
+  <p className="text-sm font-semibold text-slate-500 uppercase mb-2">
+    Other Services
+  </p>
 
-        <p className="ml-6 font-semibold text-center text-blue-700"><br/>
-          Assessment Duration: 2 – 4 Weeks
-        </p>
-      </section>
+<ul className="grid grid-cols-[max-content_max-content] gap-x-10 gap-y-3 text-slate-700">
 
-      <section className="text-center py-1">
-<a href="/contact">
-  <button className="inline-flex items-center gap-2 bg-[#0A6190] hover:bg-[#084d73] text-white px-10 py-4 rounded-lg font-medium transition-colors">
-    Talk to Experts
-  </button>
-</a>
+  {/* Active service */}
+  <li className="font-medium text-[#0A6190] whitespace-nowrap">
+    Data & AI Advisory
+  </li>
 
+  <li className="whitespace-nowrap">
+    <a
+      href="/use-case-delivery"
+      className="hover:text-[#0A6190] transition"
+    >
+      Use Case Delivery →
+    </a>
+  </li>
+
+  <li className="whitespace-nowrap">
+    <a
+      href="/talent-augmentation"
+      className="hover:text-[#0A6190] transition"
+    >
+      Talent Augmentation →
+    </a>
+  </li>
+
+  <li className="whitespace-nowrap">
+    <a
+      href="/production-support"
+      className="hover:text-[#0A6190] transition"
+    >
+      Production Support →
+    </a>
+  </li>
+
+</ul>
+
+</aside>
+
+
+  </div>
 </section>
 
-            {/* ================================================= */}
-      {/* SECTION 2 */}
+
+
       {/* ================================================= */}
-            <section className="max-w-7xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-bold mb-6">
-          Context Engineering: Building the AI Semantic Layer​
-        </h2>
+      {/* CONTEXT ENGINEERING */}
+      {/* ================================================= */}
+      <section className="max-w-7xl mx-auto px-6 py-12">
 
-        <p className="mb-8">
-          <strong>Transforming raw enterprise data into a structured, searchable brain for hallucination-free AI..</strong>{" "}
-        
-        </p>
+        <div className="grid md:grid-cols-[3fr_2fr] gap-10 items-center">
 
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          <img
-            src="/service2.png"
-            alt="AI Readiness Assessment"
-            className="w-full h-auto rounded-3xl shadow-2xl"
-          />
+          {/* LEFT — TEXT */}
+          <div>
+            <h2 className="text-2xl font-bold mb-3">
+              Context Engineering: Building the AI Semantic Layer
+            </h2>
 
-          <ol className="list-decimal ml-6 space-y-4">
+            <p className="text-slate-700 leading-7 text-justify mb-3">
+              <strong>
+                Transforming raw enterprise data into a structured, searchable brain
+                for hallucination-free AI.
+              </strong>{" "}
+              We connect meaning across your systems so AI understands relationships,
+              intent, and business logic — not just retrieve text — delivering more
+              accurate, explainable, and trustworthy outcomes.
+            </p>
+
+            <p className="text-slate-700 leading-7 text-justify">
+              This semantic foundation enables accurate reasoning, significantly
+              reduces hallucinations, and ensures AI outputs are explainable,
+              traceable, governed, and aligned with how your organization actually
+              operates.
+            </p>
+          </div>
+
+          {/* RIGHT — IMAGE */}
+          <div className="flex justify-center">
+            <img
+              src="/service2.png"
+              alt="Context Engineering Semantic Layer"
+              className="w-full max-w-md border rounded-md"
+            />
+          </div>
+        </div>
+
+        {/* SMALL SEPARATOR */}
+        <div className="my-8 h-px w-24 bg-slate-200" />
+
+        {/* WHAT WE DELIVER */}
+        <div>
+          <h3 className="text-lg font-bold mb-3">
+            What we deliver
+          </h3>
+
+          <ul className="list-disc pl-5 space-y-4 text-slate-700 leading-7 text-justify">
             <li>
-              <strong>Knowledge Graph Data Modeling:</strong> We design semantic layers that
-              map relationships between your data points, moving from flat "rows
-              and columns" to a web of interconnected enterprise knowledge that
-              AI can actually understand.
+              <strong>Knowledge Graph Data Modeling:</strong>{" "}
+              We design semantic layers that map relationships between data points,
+              entities, processes, and systems — moving from flat “rows and columns”
+              to a web of interconnected enterprise knowledge that AI can actually
+              understand and reason over.
             </li>
+
             <li>
-              <strong>Unified Data Frameworks:</strong> We implement frameworks designed to
-              ingest and harmonize unstructured (PDFs, emails, transcripts), semi-
-              structured (JSON, logs), and structured (SQL, ERP) data into a single
-              source of truth.​
+              <strong>Unified Data Frameworks:</strong>{" "}
+              We implement frameworks designed to ingest and harmonize unstructured
+              data (documents, PDFs, emails, transcripts), semi-structured data
+              (logs, JSON), and structured data (SQL databases, ERPs) into a single,
+              coherent source of contextual truth.
             </li>
+
             <li>
-              <strong>GraphRAG Implementation:</strong>  Staying ahead of market trends, we
-              integrate Knowledge Graphs with Large Language Models (LLMs) to
-              provide "grounded" context, significantly reducing hallucinations and
-              improving the accuracy of complex queries.​
+              <strong>GraphRAG Implementation:</strong>{" "}
+              We integrate knowledge graphs with Large Language Models (LLMs) to
+              provide grounded context, significantly reducing hallucinations while
+              improving accuracy, consistency, and trust in complex enterprise queries.
             </li>
+
             <li>
-              <strong>Ontology & Taxonomy Design::</strong> We build the "vocabulary" of your
-              business, ensuring the AI understands your specific industry jargon,
-              internal acronyms, and unique operational nuances.​
+              <strong>Ontology & Taxonomy Design:</strong>{" "}
+              We build the vocabulary of your business — ensuring AI understands
+              industry terminology, internal acronyms, domain-specific language,
+              and the nuanced semantics unique to your organization.
             </li>
+
             <li>
-              <strong>Metadata Enrichment & Lineage:</strong> We automate the process of
-              tagging and tracking data, ensuring that every piece of information
-              used by your AI is traceable, verifiable, and governed.​
+              <strong>Metadata, Lineage & Governance:</strong>{" "}
+              We automate metadata enrichment and lineage tracking so every piece
+              of information used by AI is traceable, verifiable, auditable, and
+              governed — supporting compliance, transparency, and enterprise trust.
             </li>
-          </ol>
+          </ul>
+        </div>
+
+      </section>
+
+      {/* ================================================= */}
+      {/* DATA & AI READINESS ASSESSMENT */}
+      {/* ================================================= */}
+      <section className="max-w-7xl mx-auto px-6 py-12">
+
+        <div className="grid md:grid-cols-[2fr_3fr] gap-10 items-center">
+
+          {/* LEFT — IMAGE */}
+          <div className="flex justify-center">
+            <img
+              src="/Service1.png"
+              alt="AI Readiness Assessment"
+              className="w-full max-w-md border rounded-md bg-white p-1"
+            />
+          </div>
+
+          {/* RIGHT — TEXT */}
+          <div>
+            <h2 className="text-2xl font-bold mb-3">
+              Data & AI Readiness Assessment & Roadmap
+            </h2>
+
+            <p className="text-slate-700 leading-7 text-justify mb-3">
+              <strong>
+                Moving beyond generic strategies to enterprise-grade AI alignment.
+              </strong>{" "}
+              Many AI initiatives fail not because of model limitations, but because
+              foundational elements — such as data readiness, ownership, governance,
+              operating models, and business prioritization — are misaligned,
+              incomplete, or unclear.
+            </p>
+
+            <p className="text-slate-700 leading-7 text-justify">
+              Our readiness assessment provides a structured, end-to-end evaluation
+              of your current state and delivers a clear, prioritized roadmap that
+              enables faster execution, reduced risk, and measurable business impact.
+            </p>
+          </div>
+        </div>
+
+        {/* SMALL SEPARATOR */}
+        <div className="my-8 h-px w-24 bg-slate-200" />
+
+        {/* ASSESSMENT PILLARS */}
+        <div>
+          <h3 className="text-lg font-bold mb-3">
+            Assessment pillars
+          </h3>
+
+          <ul className="list-disc pl-5 space-y-4 text-slate-700 leading-7 text-justify">
+            <li>
+              <strong>Data Readiness & Contextual Depth:</strong>{" "}
+              Assessing data quality, accessibility, structure, semantic maturity,
+              and readiness to support AI reasoning rather than simple retrieval.
+            </li>
+
+            <li>
+              <strong>Strategic Alignment & Use-Case ROI:</strong>{" "}
+              Identifying high-impact AI use cases and ensuring every initiative
+              aligns with clear business objectives, KPIs, and return on investment.
+            </li>
+
+            <li>
+              <strong>Architecture & Infrastructure:</strong>{" "}
+              Evaluating scalability, security, orchestration, integration patterns,
+              and cost efficiency across your AI and data stack.
+            </li>
+
+            <li>
+              <strong>Operating Model & Culture:</strong>{" "}
+              Understanding organizational readiness, adoption barriers, change
+              management requirements, and the shift from experimentation to
+              production-grade AI.
+            </li>
+
+            <li>
+              <strong>Talent Architecture & Capability Design:</strong>{" "}
+              Mapping skill gaps, role definitions, and team structures required
+              to support sustainable AI evolution.
+            </li>
+
+            <li>
+              <strong>Ethics, Governance & Trust:</strong>{" "}
+              Implementing guardrails for transparency, bias mitigation, regulatory
+              compliance, and responsible AI deployment.
+            </li>
+          </ul>
+
+          <p className="mt-6 font-medium text-slate-900">
+            Typical engagement duration: 2–4 weeks
+          </p>
+        </div>
+
+      </section>
+
+      {/* ================================================= */}
+      {/* CTA */}
+      {/* ================================================= */}
+      <section className="border-t">
+        <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-lg text-slate-700">
+            Start with clarity. Build with confidence.
+          </p>
+          <a href="/contact">
+            <button className="bg-[#0A6190] hover:bg-[#084d73] text-white px-8 py-3 rounded-md font-medium transition">
+              Talk to Experts
+            </button>
+          </a>
         </div>
       </section>
 
-      <section className="text-center py-1">
-<a href="/contact">
-  <button className="inline-flex items-center gap-2 bg-[#0A6190] hover:bg-[#084d73] text-white px-10 py-4 rounded-lg font-medium transition-colors">
-    Talk to Experts
-  </button>
-</a>
-</section>
-      
     </div>
   );
 }

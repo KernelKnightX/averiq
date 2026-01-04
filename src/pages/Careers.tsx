@@ -22,8 +22,9 @@ export default function Careers() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -39,19 +40,17 @@ export default function Careers() {
       setLoading(true);
       setError(null);
 
-      /* ========= Upload Resume ========= */
       const storagePath = `careers/${Date.now()}_${file.name}`;
       const fileRef = ref(storage, storagePath);
       await uploadBytes(fileRef, file);
       const resumeURL = await getDownloadURL(fileRef);
 
-      /* ========= Firestore Document ========= */
       await addDoc(collection(db, 'career_applications'), {
         ...form,
         resumeURL,
         resumeFileName: file.name,
         resumeStoragePath: storagePath,
-        status: 'new',            // 🔥 DO NOT REMOVE
+        status: 'new',
         createdAt: serverTimestamp(),
       });
 
@@ -78,53 +77,64 @@ export default function Careers() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* ================= HERO ================= */}
-      <section className="border-b bg-gray-50">
+    <div className="min-h-screen bg-white text-slate-900">
+
+      {/* ================= HERO (TRAINING STYLE) ================= */}
+      <section className="border-b">
         <div className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-14 items-center">
-          {/* LEFT */}
+
+          {/* LEFT — CONTENT */}
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">
-              Careers at <span className="text-[#0A6190]">AverIQ</span>
+            <p className="text-sm font-medium text-[#0A6190] uppercase tracking-wide">
+              Careers
+            </p>
+
+            <h1 className="mt-4 text-3xl md:text-4xl font-semibold leading-tight">
+              Careers, 
+              <span className="text-[#0A6190]"> at AVERIQ</span>
             </h1>
-            <p className="mt-4 text-lg text-gray-600">
+
+
+            <p className="mt-5 text-lg text-slate-600 leading-relaxed max-w-xl">
               We’re building next-generation data intelligence systems.
               If you love solving complex problems with data, you’ll fit right in.
             </p>
 
-            <div className="mt-6 space-y-3 text-gray-700">
-              <p>🚀 Work on real-world AI & data platforms</p>
-              <p>🧠 Solve enterprise-scale problems</p>
-              <p>🌍 Remote-first, outcome-driven culture</p>
-              <p>📈 Learn fast, grow faster</p>
-            </div>
+            <ul className="mt-6 space-y-2 text-slate-700">
+              <li>• Work on real-world AI & data platforms</li>
+              <li>• Solve enterprise-scale problems</li>
+              <li>• Remote-first, outcome-driven culture</li>
+              <li>• Learn fast, grow faster</li>
+            </ul>
           </div>
 
-          {/* RIGHT IMAGE */}
-          <div className="hidden lg:block">
+          {/* RIGHT — IMAGE */}
+          <div className="flex justify-center">
             <img
               src="https://images.unsplash.com/photo-1552664730-d307ca884978"
               alt="Careers at AverIQ"
-              className="rounded-2xl shadow-lg"
+              className="w-full max-w-md rounded-2xl shadow-lg"
             />
           </div>
+
         </div>
       </section>
 
       {/* ================= CONTENT ================= */}
       <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12">
+
         {/* LEFT INFO */}
         <div>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+          <h2 className="text-2xl font-semibold mb-4">
             Who We’re Looking For
           </h2>
 
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6 max-w-md">
             We look for exceptional people.
             If you belong to any of these areas, we want to hear from you.
           </p>
 
-          <ul className="space-y-3 text-gray-800">
+          <ul className="space-y-2 text-slate-800">
             <li>• Data Scientists</li>
             <li>• Data Engineers</li>
             <li>• Knowledge Graph Experts</li>
@@ -136,132 +146,176 @@ export default function Careers() {
         </div>
 
         {/* ================= FORM ================= */}
-         <div className="bg-gray-50 border rounded-2xl p-8">
-           <h3 className="text-xl font-semibold mb-4">Apply Now</h3>
-           <p className="text-sm text-gray-600 mb-6">
-           
-           </p>
+        <div className="bg-white border rounded-2xl p-8 shadow-sm">
+          <h3 className="text-xl font-semibold mb-6">
+            Apply Now
+          </h3>
 
           {success ? (
             <p className="text-green-600 font-medium">
               ✅ Thank you! Your application has been submitted.
             </p>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                name="name"
-                placeholder="Full Name"
-                required
-                value={form.name}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+            <form onSubmit={handleSubmit} className="space-y-6">
 
-              <input
-                name="email"
-                type="email"
-                placeholder="Email Address"
-                required
-                value={form.email}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+              {/* PERSONAL INFO */}
+              <div>
+                <p className="text-sm font-semibold mb-2">
+                  Personal Information
+                </p>
 
-              <input
-                name="phone"
-                placeholder="Phone Number"
-                required
-                value={form.phone}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    name="name"
+                    placeholder="Full Name"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    className="border rounded px-4 py-2"
+                  />
 
-              <input
-                name="role"
-                placeholder="Primary Role (e.g. Data Scientist)"
-                required
-                value={form.role}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+                  <input
+                    name="phone"
+                    placeholder="Phone Number"
+                    required
+                    value={form.phone}
+                    onChange={handleChange}
+                    className="border rounded px-4 py-2"
+                  />
+                </div>
 
-              <input
-                name="experience"
-                placeholder="Years of Experience"
-                required
-                value={form.experience}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  className="mt-3 w-full border rounded px-4 py-2"
+                />
+              </div>
 
-              <textarea
-                name="skills"
-                placeholder="Key Skills / Tools"
-                required
-                rows={3}
-                value={form.skills}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+              {/* PROFESSIONAL */}
+              <div>
+                <p className="text-sm font-semibold mb-2">
+                  Professional Details
+                </p>
 
-              <input
-                name="location"
-                placeholder="Location (City, State)"
-                required
-                value={form.location}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+                <input
+                  name="role"
+                  placeholder="Primary Role (e.g. Data Scientist)"
+                  required
+                  value={form.role}
+                  onChange={handleChange}
+                  className="w-full border rounded px-4 py-2 mb-3"
+                />
 
-              <input
-                name="pincode"
-                placeholder="Zip Code"
-                required
-                pattern="[0-9]{5}"
-                maxLength={5}
-                value={form.pincode}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+                <input
+                  name="experience"
+                  placeholder="Years of Experience"
+                  required
+                  value={form.experience}
+                  onChange={handleChange}
+                  className="w-full border rounded px-4 py-2 mb-3"
+                />
 
-              <input
-                name="city"
-                placeholder="City"
-                required
-                value={form.city}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+                <textarea
+                  name="skills"
+                  placeholder="Key Skills / Tools"
+                  required
+                  rows={3}
+                  value={form.skills}
+                  onChange={handleChange}
+                  className="w-full border rounded px-4 py-2"
+                />
+              </div>
 
-              <input
-                name="portfolio"
-                placeholder="Portfolio / GitHub / LinkedIn (optional)"
-                value={form.portfolio}
-                onChange={handleChange}
-                className="w-full border rounded px-4 py-2"
-              />
+              {/* LOCATION */}
+              <div>
+                <p className="text-sm font-semibold mb-2">
+                  Location
+                </p>
 
-              <input
-                type="file"
-                accept=".pdf"
-                required
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
-                className="w-full"
-              />
+                <input
+                  name="location"
+                  placeholder="Location (City, State)"
+                  required
+                  value={form.location}
+                  onChange={handleChange}
+                  className="w-full border rounded px-4 py-2 mb-3"
+                />
 
-              {error && <p className="text-red-600 text-sm">{error}</p>}
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    name="city"
+                    placeholder="City"
+                    required
+                    value={form.city}
+                    onChange={handleChange}
+                    className="border rounded px-4 py-2"
+                  />
+
+                  <input
+                    name="pincode"
+                    placeholder="Zip Code"
+                    required
+                    pattern="[0-9]{5}"
+                    maxLength={5}
+                    value={form.pincode}
+                    onChange={handleChange}
+                    className="border rounded px-4 py-2"
+                  />
+                </div>
+              </div>
+
+              {/* LINKS + RESUME */}
+              <div>
+                <input
+                  name="portfolio"
+                  placeholder="Portfolio / GitHub / LinkedIn (optional)"
+                  value={form.portfolio}
+                  onChange={handleChange}
+                  className="w-full border rounded px-4 py-2 mb-3"
+                />
+
+                <label className="block text-sm font-medium mb-1">
+                  Upload Resume (PDF only)
+                </label>
+
+                <input
+                  type="file"
+                  accept=".pdf"
+                  required
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  className="w-full border rounded px-3 py-2"
+                />
+
+                {file && (
+                  <p className="text-xs text-slate-500 mt-1">
+                    Selected: {file.name}
+                  </p>
+                )}
+              </div>
+
+              {error && (
+                <p className="text-red-600 text-sm">
+                  {error}
+                </p>
+              )}
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#0A6190] text-white py-3 rounded-lg hover:bg-[#084C6B] disabled:opacity-50"
+                className="w-full bg-[#0A6190] hover:bg-[#084C6B] text-white py-3 rounded-lg font-medium transition disabled:opacity-50"
               >
-                {loading ? 'Submitting…' : 'Submit Application'}
+                {loading ? 'Uploading resume & submitting…' : 'Submit Application'}
               </button>
+
             </form>
           )}
         </div>
       </section>
+
     </div>
   );
 }

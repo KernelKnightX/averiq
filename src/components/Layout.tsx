@@ -1,51 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
-/* =========================================================
-   COOKIE CONSENT (Accept / Reject)
-   ========================================================= */
-function CookieConsent() {
-  const [visible, setVisible] = useState(false);
-
-  // Show cookie banner every time the website opens
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setVisible(true);
-    }, 1000); // Show after 1 second
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!visible) return null;
-
-  return (
-    <div className="fixed bottom-0 inset-x-0 z-[999] bg-gray-900 text-white px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-      <p className="text-sm">
-        We use cookies to improve your experience and analyze site usage.
-      </p>
-      <div className="flex gap-3">
-        <button
-          onClick={() => {
-            localStorage.setItem('cookie-choice', 'rejected');
-            setVisible(false);
-          }}
-          className="px-4 py-2 rounded-md bg-gray-700 text-sm"
-        >
-          Reject
-        </button>
-        <button
-          onClick={() => {
-            localStorage.setItem('cookie-choice', 'accepted');
-            setVisible(false);
-          }}
-          className="px-4 py-2 rounded-md bg-[#0A6190] hover:bg-[#084C6B] text-white text-sm transition-colors"
-        >
-          Accept
-        </button>
-      </div>
-    </div>
-  );
-}
+import CookieConsent from './CookieConsent';
 
 /* =========================================================
    SERVICE DROPDOWN ITEM (PREMIUM STYLE)
@@ -94,11 +50,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur border-b border-gray-200">
         <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
-          {/* LOGO */}
-          <Link to="/" className="flex items-center gap-3">
-            <img src="/Design_8.png" alt="AverIQ" className="h-12 w-12" />
-            <span className="text-xl font-bold text-gray-900">AVERIQ</span>
-          </Link>
+<Link to="/" className="flex items-center">
+  <img
+    src="/Untitled_design__2.png"
+    alt="AverIQ"
+    className="h-10 w-auto object-contain"
+  />
+</Link>
 
           {/* DESKTOP NAV */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
@@ -173,12 +131,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* CTA */}
-<Link
-  to="/contact"
-  className="hidden md:flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A6190] text-white text-sm font-semibold"
->
-  Get Started <ArrowRight className="w-4 h-4" />
-</Link>
+          {location.pathname !== '/contact' && (
+            <Link
+              to="/contact"
+              className="hidden md:flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A6190] text-white text-sm font-semibold"
+            >
+              Get Started <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
 
 
           {/* MOBILE BUTTON */}
@@ -192,13 +152,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         {/* MOBILE MENU */}
         {mobileOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-3">
-            <Link to="/" onClick={() => setMobileOpen(false)}>Home</Link>
-            <Link to="/about" onClick={() => setMobileOpen(false)}>About</Link>
-            <Link to="/services" onClick={() => setMobileOpen(false)}>Services</Link>
-            <Link to="/training" onClick={() => setMobileOpen(false)}>Training</Link>
-            <Link to="/careers" onClick={() => setMobileOpen(false)}>Careers</Link>
-            <Link to="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-t border-gray-200 shadow-lg">
+            <div className="px-6 py-6 space-y-4">
+              <Link to="/" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Home</Link>
+              <Link to="/about" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">About</Link>
+              <Link to="/services" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Services</Link>
+              <Link to="/training" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Training</Link>
+              <Link to="/careers" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Careers</Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Contact</Link>
+              <div className="pt-4 border-t border-gray-200">
+                <Link to="/contact" onClick={() => setMobileOpen(false)} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A6190] text-white text-sm font-semibold">
+                  Get Started <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
           </div>
         )}
       </header>
@@ -217,14 +184,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <img src="/logo.png" className="h-14 w-14" />
               <span className="text-2xl font-bold">AVERIQ</span>
             </div>
-            <p className="text-gray-400 max-w-md">
+            <p className="text-white max-w-md">
               Your boutique AI partner for faster execution and better outcomes — without big-firm overhead.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-3">Company</h4>
-            <ul className="space-y-1 text-gray-400">
+            <h4 className="font-semibold mb-3 text-white">Company</h4>
+            <ul className="space-y-1 text-white">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About</Link></li>
               <li><Link to="/services">Services</Link></li>
@@ -234,8 +201,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Services</h4>
-            <ul className="space-y-2 text-gray-400">
+            <h4 className="font-semibold mb-4 text-white">Services</h4>
+            <ul className="space-y-2 text-white">
               <li><Link to="/data-readiness-assessment">Data & AI Advisory</Link></li>
               <li><Link to="/talent-augmentation">Talent Augmentation</Link></li>
               <li><Link to="/use-case-delivery">Use Case Delivery</Link></li>
@@ -246,9 +213,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="border-t border-gray-800 py-4">
-          <div className="max-w-7xl mx-auto px-6 flex items-center justify-between text-sm text-gray-400">
+          <div className="max-w-7xl mx-auto px-6 flex items-center justify-between text-sm text-white">
             <div className="font-medium">
               © {new Date().getFullYear()} AverIQ. All rights reserved.
+            </div>
+            <div className="text-center">
+              Made by Build Nexus with love
             </div>
             <div className="flex items-center gap-6">
               <Link to="/terms" className="hover:text-gray-300 transition-colors">
@@ -261,6 +231,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
+
+      <CookieConsent />
     </div>
   );
 }
+
