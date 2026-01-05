@@ -17,7 +17,6 @@ const GraphRAG = React.lazy(() => import('./pages/Graphrag'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const Careers = React.lazy(() => import('./pages/Careers'));
 const Training = React.lazy(() => import('./pages/Training'));
-const Consulting = React.lazy(() => import('./pages/Consulting'));
 const Privacy = React.lazy(() => import('./pages/Privacy'));
 const Terms = React.lazy(() => import('./pages/Terms'));
 

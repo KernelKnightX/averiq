@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Header() {
@@ -67,14 +67,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* CTA Button */}
-        <Link
-          to="/contact"
-          className="px-6 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm hover:shadow-md flex items-center gap-2"
-        >
-          Get Started
-          <ArrowRight className="w-4 h-4" />
-        </Link>
       </nav>
     </header>
   );

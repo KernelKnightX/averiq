@@ -3,66 +3,88 @@ export default function ProductionSupport() {
     <div className="w-full bg-white text-slate-900">
 
       {/* ================================================= */}
-      {/* HEADER — LEFT CONTENT + RIGHT OTHER SERVICES */}
+      {/* HEADER — LEFT CONTENT + RIGHT SERVICE SWITCHER */}
       {/* ================================================= */}
       <section className="border-b">
-        <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-[3fr_1fr] gap-12">
+        <div className="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-[1.2fr_0.8fr] gap-1 items-center">
 
-          {/* LEFT — SERVICE HEADER */}
+          {/* ================= LEFT — SERVICE INFO ================= */}
           <div className="max-w-xl">
             <p className="text-sm font-medium text-[#0A6190] uppercase tracking-wide">
               Service
             </p>
 
-            <h1 className="mt-2 text-3xl md:text-4xl font-semibold tracking-tight">
+            <h1 className="mt-2 text-3xl md:text-4xl font-semibold text-slate-900">
               Production Support
             </h1>
 
-            <p className="mt-3 text-lg text-slate-600">
+            <p className="mt-4 text-lg text-slate-600 leading-relaxed">
               Reliability, governance, and peace of mind for mission-critical AI and
               Knowledge Graph systems operating in production.
             </p>
           </div>
 
-          {/* RIGHT — OTHER SERVICES */}
-          <aside className="hidden md:block border-l border-slate-200 pl-4 -ml-32">
-            <p className="text-sm font-semibold text-slate-500 uppercase mb-4">
-              Other Services
-            </p>
+          {/* ================= RIGHT — SERVICE SWITCHER ================= */}
+          <div className="border-l border-slate-200 pl-12">
+            <div className="grid grid-cols-2 gap-5 max-w-md">
 
-            <ul className="grid grid-cols-[max-content_max-content] gap-x-10 gap-y-3 text-slate-700">
-              <li>
-                <a
-                  href="/data-readiness-assessment"
-                  className="hover:text-[#0A6190] transition whitespace-nowrap"
-                >
-                  Data & AI Advisory →
-                </a>
-              </li>
+              {/* Data & AI Advisory */}
+              <a
+                href="/data-readiness-assessment"
+                className="
+                  border border-slate-300 rounded-md
+                  px-6 py-6 text-center
+                  text-slate-800 font-medium
+                  hover:border-[#0A6190]
+                  transition
+                "
+              >
+                Data & AI Advisory
+              </a>
 
-              <li>
-                <a
-                  href="/use-case-delivery"
-                  className="hover:text-[#0A6190] transition whitespace-nowrap"
-                >
-                  Use Case Delivery →
-                </a>
-              </li>
+              {/* Use Case Delivery */}
+              <a
+                href="/use-case-delivery"
+                className="
+                  border border-slate-300 rounded-md
+                  px-6 py-6 text-center
+                  text-slate-800 font-medium
+                  hover:border-[#0A6190]
+                  transition
+                "
+              >
+                Use Case Delivery
+              </a>
 
-              <li>
-                <a
-                  href="/talent-augmentation"
-                  className="hover:text-[#0A6190] transition whitespace-nowrap"
-                >
-                  Talent Augmentation →
-                </a>
-              </li>
+              {/* Talent Augmentation */}
+              <a
+                href="/talent-augmentation"
+                className="
+                  border border-slate-300 rounded-md
+                  px-6 py-6 text-center
+                  text-slate-800 font-medium
+                  hover:border-[#0A6190]
+                  transition
+                "
+              >
+                Talent Augmentation
+              </a>
 
-              <li className="font-medium text-[#0A6190] whitespace-nowrap">
+              {/* Production Support — ACTIVE */}
+              <div
+                className="
+                  bg-[#0A6190] text-white
+                  rounded-md
+                  px-6 py-6 text-center
+                  font-semibold
+                  shadow-sm
+                "
+              >
                 Production Support
-              </li>
-            </ul>
-          </aside>
+              </div>
+
+            </div>
+          </div>
 
         </div>
       </section>

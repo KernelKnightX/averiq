@@ -3,68 +3,88 @@ export default function UseCaseDelivery() {
     <div className="w-full bg-white text-slate-900">
 
       {/* ================================================= */}
-      {/* HEADER — LEFT CONTENT + RIGHT OTHER SERVICES */}
+      {/* HEADER — LEFT CONTENT + RIGHT SERVICE SWITCHER */}
       {/* ================================================= */}
       <section className="border-b">
-        <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-[3fr_1fr] gap-12">
+        <div className="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-[1.2fr_0.8fr] gap-1 items-center">
 
-          {/* LEFT — SERVICE HEADER */}
+          {/* ================= LEFT — SERVICE INFO ================= */}
           <div className="max-w-xl">
             <p className="text-sm font-medium text-[#0A6190] uppercase tracking-wide">
               Service
             </p>
 
-            <h1 className="mt-2 text-3xl md:text-4xl font-semibold tracking-tight">
+            <h1 className="mt-2 text-3xl md:text-4xl font-semibold text-slate-900">
               Use Case Delivery
             </h1>
 
-            <p className="mt-3 text-lg text-slate-600">
+            <p className="mt-4 text-lg text-slate-600 leading-relaxed">
               Moving AI initiatives from pilots and proofs-of-concept into
               production-ready systems that deliver measurable business value.
             </p>
           </div>
 
-          {/* RIGHT — OTHER SERVICES */}
-          <aside className="hidden md:block border-l border-slate-200 pl-4 -ml-32">
-            <p className="text-sm font-semibold text-slate-500 uppercase mb-4">
-              Other Services
-            </p>
+          {/* ================= RIGHT — SERVICE SWITCHER ================= */}
+          <div className="border-l border-slate-200 pl-12">
+            <div className="grid grid-cols-2 gap-5 max-w-md">
 
-            <ul className="grid grid-cols-[max-content_max-content] gap-x-10 gap-y-3 text-slate-700">
+              {/* Data & AI Advisory */}
+              <a
+                href="/data-readiness-assessment"
+                className="
+                  border border-slate-300 rounded-md
+                  px-6 py-6 text-center
+                  text-slate-800 font-medium
+                  hover:border-[#0A6190]
+                  transition
+                "
+              >
+                Data & AI Advisory
+              </a>
 
-              <li>
-                <a
-                  href="/data-readiness-assessment"
-                  className="hover:text-[#0A6190] transition whitespace-nowrap"
-                >
-                  Data & AI Advisory →
-                </a>
-              </li>
-
-              <li className="font-medium text-[#0A6190] whitespace-nowrap">
+              {/* Use Case Delivery — ACTIVE */}
+              <div
+                className="
+                  bg-[#0A6190] text-white
+                  rounded-md
+                  px-6 py-6 text-center
+                  font-semibold
+                  shadow-sm
+                "
+              >
                 Use Case Delivery
-              </li>
+              </div>
 
-              <li>
-                <a
-                  href="/talent-augmentation"
-                  className="hover:text-[#0A6190] transition whitespace-nowrap"
-                >
-                  Talent Augmentation →
-                </a>
-              </li>
+              {/* Talent Augmentation */}
+              <a
+                href="/talent-augmentation"
+                className="
+                  border border-slate-300 rounded-md
+                  px-6 py-6 text-center
+                  text-slate-800 font-medium
+                  hover:border-[#0A6190]
+                  transition
+                "
+              >
+                Talent Augmentation
+              </a>
 
-              <li>
-                <a
-                  href="/production-support"
-                  className="hover:text-[#0A6190] transition whitespace-nowrap"
-                >
-                  Production Support →
-                </a>
-              </li>
+              {/* Production Support */}
+              <a
+                href="/production-support"
+                className="
+                  border border-slate-300 rounded-md
+                  px-6 py-6 text-center
+                  text-slate-800 font-medium
+                  hover:border-[#0A6190]
+                  transition
+                "
+              >
+                Production Support
+              </a>
 
-            </ul>
-          </aside>
+            </div>
+          </div>
 
         </div>
       </section>

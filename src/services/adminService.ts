@@ -139,7 +139,7 @@ export const updateApplicationStatus = async (
   priority?: CareerApplication['priority']
 ): Promise<void> => {
   try {
-    const updateData: any = {
+    const updateData: Record<string, unknown> = {
       status,
       reviewedAt: Timestamp.now(),
     };

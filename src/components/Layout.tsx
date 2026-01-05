@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import CookieConsent from './CookieConsent';
 
@@ -130,15 +130,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
 
-          {/* CTA */}
-          {location.pathname !== '/contact' && (
-            <Link
-              to="/contact"
-              className="hidden md:flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A6190] text-white text-sm font-semibold"
-            >
-              Get Started <ArrowRight className="w-4 h-4" />
-            </Link>
-          )}
 
 
           {/* MOBILE BUTTON */}
@@ -160,11 +151,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Link to="/training" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Training</Link>
               <Link to="/careers" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Careers</Link>
               <Link to="/contact" onClick={() => setMobileOpen(false)} className="block text-gray-700 hover:text-blue-600 font-medium">Contact</Link>
-              <div className="pt-4 border-t border-gray-200">
-                <Link to="/contact" onClick={() => setMobileOpen(false)} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A6190] text-white text-sm font-semibold">
-                  Get Started <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
             </div>
           </div>
         )}
@@ -190,25 +176,48 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-3 text-white">Company</h4>
-            <ul className="space-y-1 text-white">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/about">About</Link></li>
-              <li><Link to="/services">Services</Link></li>
-              <li><Link to="/careers">Careers</Link></li>
-              <li><Link to="/contact">Contact</Link></li>
-            </ul>
+<h4 className="font-semibold mb-3 text-white">Company</h4>
+
+<ul className="space-y-1">
+  <li>
+    <Link to="/" className="text-white hover:text-white">
+      Home
+    </Link>
+  </li>
+  <li>
+    <Link to="/about" className="text-white hover:text-white">
+      About
+    </Link>
+  </li>
+  <li>
+    <Link to="/services" className="text-white hover:text-white">
+      Services
+    </Link>
+  </li>
+  <li>
+    <Link to="/careers" className="text-white hover:text-white">
+      Careers
+    </Link>
+  </li>
+  <li>
+    <Link to="/contact" className="text-white hover:text-white">
+      Contact
+    </Link>
+  </li>
+</ul>
+
           </div>
 
           <div>
             <h4 className="font-semibold mb-4 text-white">Services</h4>
-            <ul className="space-y-2 text-white">
-              <li><Link to="/data-readiness-assessment">Data & AI Advisory</Link></li>
-              <li><Link to="/talent-augmentation">Talent Augmentation</Link></li>
-              <li><Link to="/use-case-delivery">Use Case Delivery</Link></li>
-              <li><Link to="/production-support">Production Support</Link></li>
-              <li><Link to="/training">Training</Link></li>
-            </ul>
+<ul className="space-y-2 text-white [&_a]:text-white [&_a:hover]:text-white">
+  <li><Link to="/data-readiness-assessment">Data & AI Advisory</Link></li>
+  <li><Link to="/talent-augmentation">Talent Augmentation</Link></li>
+  <li><Link to="/use-case-delivery">Use Case Delivery</Link></li>
+  <li><Link to="/production-support">Production Support</Link></li>
+  <li><Link to="/training">Training</Link></li>
+</ul>
+
           </div>
         </div>
 
@@ -216,9 +225,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="max-w-7xl mx-auto px-6 flex items-center justify-between text-sm text-white">
             <div className="font-medium">
               © {new Date().getFullYear()} AverIQ. All rights reserved.
-            </div>
-            <div className="text-center">
-              Made by Build Nexus with love
             </div>
             <div className="flex items-center gap-6">
               <Link to="/terms" className="hover:text-gray-300 transition-colors">

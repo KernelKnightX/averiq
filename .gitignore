@@ -20,7 +20,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment (keep local, configure on server)
 .env
+.env.local
+
+# Firebase (keep service account out of git)
 firebase-service-account.json
 serviceAccountKey.json
 *.json.backup

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { getDocs, query, collection, orderBy, updateDoc, doc } from 'firebase/firestore';
+import { getDocs, query, collection, orderBy, updateDoc, doc, Timestamp } from 'firebase/firestore';
 import {
   Briefcase,
   Mail,
@@ -9,8 +9,6 @@ import {
   Download,
   Archive,
   Check,
-  X,
-  Phone,
 } from 'lucide-react';
 
 import { auth, db } from '../../firebase/config';
@@ -41,7 +39,7 @@ interface CareerApplication {
   resumeURL: string;
   resumeFileName: string;
   status: CareerStatus;
-  createdAt: any;
+  createdAt: Timestamp;
 }
 
 interface ContactSubmission {
@@ -52,7 +50,7 @@ interface ContactSubmission {
   company: string;
   message: string;
   status: ContactStatus;
-  submittedAt: any;
+  submittedAt: Timestamp;
 }
 
 /* ================= COMPONENT ================= */

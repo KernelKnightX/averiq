@@ -3,70 +3,85 @@ export default function DataReadinessAssessment() {
     <div className="w-full bg-white text-slate-900">
 
 <section className="border-b">
-  <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-[3fr_1fr] gap-12">
+  <div className="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-[1.2fr_0.8fr] gap-1 items-center">
 
-    {/* LEFT — HEADER */}
+    {/* ================= LEFT — SERVICE INFO ================= */}
     <div className="max-w-xl">
       <p className="text-sm font-medium text-[#0A6190] uppercase tracking-wide">
         Service
       </p>
 
-      <h1 className="mt-2 text-3xl md:text-4xl font-semibold tracking-tight">
+      <h1 className="mt-2 text-3xl md:text-4xl font-semibold text-slate-900">
         Data & AI Advisory & Consulting
       </h1>
 
-      <p className="mt-3 text-lg text-slate-600">
+      <p className="mt-4 text-lg text-slate-600 leading-relaxed">
         Helping enterprises move from fragmented data and experimental AI
         to trusted, explainable, production-ready systems.
       </p>
     </div>
 
-    {/* RIGHT — OTHER SERVICES */}
-<aside className="hidden md:block border-l border-slate-200 pl-4 -ml-32">
+    {/* ================= RIGHT — SERVICE SWITCHER ================= */}
+    <div className="border-l border-slate-200 pl-12">
+      <div className="grid grid-cols-2 gap-5 max-w-md">
 
+        {/* Data & AI Advisory — ACTIVE */}
+        <div
+          className="
+            bg-[#0A6190] text-white
+            rounded-md
+            px-6 py-6 text-center
+            font-semibold
+            shadow-sm
+          "
+        >
+          Data & AI Advisory
+        </div>
 
-  <p className="text-sm font-semibold text-slate-500 uppercase mb-2">
-    Other Services
-  </p>
+        {/* Use Case Delivery */}
+        <a
+          href="/use-case-delivery"
+          className="
+            border border-slate-300 rounded-md
+            px-6 py-6 text-center
+            text-slate-800 font-medium
+            hover:border-[#0A6190]
+            transition
+          "
+        >
+          Use Case Delivery
+        </a>
 
-<ul className="grid grid-cols-[max-content_max-content] gap-x-10 gap-y-3 text-slate-700">
+        {/* Talent Augmentation */}
+        <a
+          href="/talent-augmentation"
+          className="
+            border border-slate-300 rounded-md
+            px-6 py-6 text-center
+            text-slate-800 font-medium
+            hover:border-[#0A6190]
+            transition
+          "
+        >
+          Talent Augmentation
+        </a>
 
-  {/* Active service */}
-  <li className="font-medium text-[#0A6190] whitespace-nowrap">
-    Data & AI Advisory
-  </li>
+        {/* Production Support */}
+        <a
+          href="/production-support"
+          className="
+            border border-slate-300 rounded-md
+            px-6 py-6 text-center
+            text-slate-800 font-medium
+            hover:border-[#0A6190]
+            transition
+          "
+        >
+          Production Support
+        </a>
 
-  <li className="whitespace-nowrap">
-    <a
-      href="/use-case-delivery"
-      className="hover:text-[#0A6190] transition"
-    >
-      Use Case Delivery →
-    </a>
-  </li>
-
-  <li className="whitespace-nowrap">
-    <a
-      href="/talent-augmentation"
-      className="hover:text-[#0A6190] transition"
-    >
-      Talent Augmentation →
-    </a>
-  </li>
-
-  <li className="whitespace-nowrap">
-    <a
-      href="/production-support"
-      className="hover:text-[#0A6190] transition"
-    >
-      Production Support →
-    </a>
-  </li>
-
-</ul>
-
-</aside>
-
+      </div>
+    </div>
 
   </div>
 </section>
@@ -166,22 +181,24 @@ export default function DataReadinessAssessment() {
       </section>
 
       {/* ================================================= */}
+      {/* BRIDGE BETWEEN CONTEXT ENGINEERING AND DATA & AI READINESS ASSESSMENT */}
+      {/* ================================================= */}
+      <section className="max-w-7xl mx-auto px-6 py-6 text-center">
+        <a href="/contact">
+          <button className="bg-[#0A6190] hover:bg-[#084d73] text-white px-8 py-3 rounded-md font-medium transition">
+            Talk to Expert
+          </button>
+        </a>
+      </section>
+
+      {/* ================================================= */}
       {/* DATA & AI READINESS ASSESSMENT */}
       {/* ================================================= */}
       <section className="max-w-7xl mx-auto px-6 py-12">
 
-        <div className="grid md:grid-cols-[2fr_3fr] gap-10 items-center">
+        <div className="grid md:grid-cols-[3fr_2fr] gap-10 items-center">
 
-          {/* LEFT — IMAGE */}
-          <div className="flex justify-center">
-            <img
-              src="/Service1.png"
-              alt="AI Readiness Assessment"
-              className="w-full max-w-md border rounded-md bg-white p-1"
-            />
-          </div>
-
-          {/* RIGHT — TEXT */}
+          {/* LEFT — TEXT */}
           <div>
             <h2 className="text-2xl font-bold mb-3">
               Data & AI Readiness Assessment & Roadmap
@@ -202,6 +219,15 @@ export default function DataReadinessAssessment() {
               of your current state and delivers a clear, prioritized roadmap that
               enables faster execution, reduced risk, and measurable business impact.
             </p>
+          </div>
+
+          {/* RIGHT — IMAGE */}
+          <div className="flex justify-center">
+            <img
+              src="/Service1.png"
+              alt="AI Readiness Assessment"
+              className="w-full max-w-md border rounded-md bg-white p-1"
+            />
           </div>
         </div>
 

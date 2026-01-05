@@ -63,9 +63,9 @@ export default function About() {
 
 
           <h1 className="mt-4 text-3xl md:text-5xl font-semibold leading-tight">
-            We're Data People.
+            We're Context People. 
             <br />
-            <span className="text-[#0A6190]">Building Intelligent Systems.</span>
+            <span className="text-[#0A6190]">Connecting Intelligent Reasoning.</span>
           </h1>
 
           <p className="mt-6 text-lg text-gray-700 leading-relaxed">
@@ -74,7 +74,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="border-l-2 border-gray-200 pl-10 text-gray-700 space-y-4">
+        <div className="border-l-2 font-bold border-gray-200 pl-10 text-black-1000 space-y-4">
           <p className="text-lg">
             Most AI fails not because of models —
             but because systems lack shared meaning.

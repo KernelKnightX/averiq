@@ -111,7 +111,7 @@ export default function Careers() {
           {/* RIGHT — IMAGE */}
           <div className="flex justify-center">
             <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978"
+              src="/AI.jpeg"
               alt="Careers at AverIQ"
               className="w-full max-w-md rounded-2xl shadow-lg"
             />
